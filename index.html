@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+    <head>        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Web Map KPI di Kabupaten Sukoharjo</title>
+
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet"> 
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+   
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"/>
+        <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css"/>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+        <link rel="stylesheet" href="css/header.css">
+        <link rel="stylesheet" href="css/leaflet.css">
+
+        <link rel="stylesheet" type="text/css" href="plugin/leaflet.defaultextent.css">
+        <script src="plugin/leaflet.defaultextent.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+        <script src="https://unpkg.com/georaster/dist/georaster.browser.min.js"></script>
+        <script src="https://unpkg.com/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.browser.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/georaster@1.6.0/dist/georaster.browser.bundle.min.js"></script>
+        <script src="https://unpkg.com/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.min.js"></script>
+        <script src="data/batasadmin.js"></script>
+        <script src="data/titikindustri.js"></script>
+        <script src="data/lokasialternatif.js"></script>
+        <script src="data/rtrwindustri.js"></script>
+        <script src="data/KIN.js"></script>
+        <script src="data/kesesuaianrtrw.js"></script>
+        <link rel = "icon" href = "LOGOUGM.png" 
+        type = "image/x-icon">
+        <style>
+        html, body{
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        #map {
+            width: 100%;
+            height: 85%;
+            padding: 0;
+            margin: 0;
+        }
+        header{
+	        color: white;
+        }
+        .legend p {
+            font-size: 10pt;
+            line-height: 2;
+            margin: 0px;
+        }
+        .legend {
+            padding: 6px 8px;
+            margin: 0px;
+            border-radius: 10px;
+            border: 2px solid #f8edeb;
+            background-clip: padding-box;
+        }
+        #legend-title {
+            font-weight: bold;
+            text-align: center;
+            font-size: 12pt;
+        }
+        .judultgt{
+            font-size:8pt;
+            font-weight: bold;
+            text-align:center;
+            background:#e9d8a6;
+            color:#1b6309;
+            border-radius: 5rem;
+            padding:.5rem .5rem;
+        }
+        </style>
+    </head>
+
+    <body>
+         <!-- Header -->
+         <header class="site-header">
+            <div class="site-identity">
+                <a><img src="icon/icon_webmap.png" alt="Icon Web Map" /></a>
+              <h1><a class="judul"> <b>Web Map</b> <c>Kesesuaian Lahan Kawasan Peruntukan Industri (KPI)</c> 
+                    <br> <c>Kabupaten Sukoharjo</c> </a></h1>
+            </div>  
+          </header>
+        <!-- Web Map -->
+            <div id='map'></div>
+                    <script> 
+                        var map = L.map('map', {
+                            center: [-7.68757639269679, 110.83985714559863],
+                            zoom: 11,
+                        });
+                        //Basemap//
+                        var osm_mapnik = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	                    maxZoom: 25,
+	                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        });
+                        var esri = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+                        });
+                        var carto = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}{r}.png', {attribution:'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>&copy; <a href="http://cartodb.com/attributions">CartoDB</a>', 
+                        subdomains: 'abcd', 
+                        maxZoom: '25'
+                        });
+                        var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 25,
+                        attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+                        });
+                        var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+                        maxZoom: 20,
+                        subdomains:['mt0','mt1','mt2','mt3']
+                        }).addTo(map);;
+                        var baseMaps = {
+                            "Google" : googleSat,
+                            "Satellite": esri,
+                            "OSM" : osm_mapnik,
+                            "Dark": carto,
+                            "Topo" : OpenTopoMap                   
+                        }; 
+                        function highlightFeature(e) {
+                            var layer = e.target;
+                            layer.setStyle({
+                                weight: 2,
+                                color: '#FFFFFF',
+                                dashArray: '',
+                                fillOpacity: 0.7
+                            });
+
+                            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                                layer.bringToFront();
+                            }
+                        }
+                        // Batas Kecamatan //
+                        /* mengatur style */
+                        function getColor(a) {
+                            return  a == "Baki" ? "#CCCCCC": 
+                                    a == "Bendosari" ? "#707070":
+                                    a == "Bulu" ? "#999999":
+                                    a == "Gatak" ? "#6B6B6B": 
+                                    a == "Grogol" ? "#5C5C5C":
+                                    a == "Kartasura" ? "#808080":
+                                    a == "Mojolaban" ? "#363636":
+                                    a == "Nguter" ? "#292929":
+                                    a == "Polokarto" ? "#878787":
+                                    a == "Sukoharjo" ? "#404040":
+                                    a == "Tawangsari" ? "#666666":
+                                    a == "Weru" ? "#474747":
+                            "#111111"; }
+                        
+                            function style(feature) {
+                                return{
+                                    fillColor: getColor(feature.properties.WADMKC),
+                                    fillOpacity: 0.8,
+                                    color: "#FFFFFF",
+                                    weight: 1.5,
+                                    dashArray: 10,
+                                };
+                            }
+                            var bataskecamatan = L.geoJson(batasadmin, {
+                                style,
+                                onEachFeature: function (feature, layer) {
+                                    layer.bindPopup(
+                                        "<div style='text-align: center'>" +
+                                        "Kecamatan " + feature.properties.WADMKC + "<br>" +
+                                        "Luas " + feature.properties.Luas + " Ha" +
+                                        "</div>"
+                                    );
+                                }
+                            }).addTo(map);
+                      
+                        // Define a custom icon
+                        var customIcon = L.icon({
+                            iconUrl: 'icon/industri.png', // Path to your custom icon
+                            iconSize: [20, 30], // Size of the icon
+                        });
+
+                        // Titik Industri Eksisting // 
+                        var titikindustri = L.geoJson(titikindustri, {
+                            pointToLayer: function(feature, latlng) {
+                                return L.marker(latlng, { icon: customIcon }); // Use custom icon for markers
+                            },
+                            onEachFeature: function(feature, layer) {
+                                    layer.bindPopup("<div style='text-align: center'>" + '<h1 class="judultgt">Titik Industri Eksisting</h1>' + feature.properties.namobj); 
+                            }});
+                        // Kawasan Industri Nguter //
+                        function getColorByKIN(kin) {
+                            return  kin === 1 ? "#1a9641" :    
+                                    kin === 2 ? "#a6d96a" :     
+                                    kin === 3 ? "#ffffc0" :
+                                    kin === 4 ? "#fdae61" :
+                                    kin === 5 ? "#d7191c" :    
+                                                "#7f7f7f";   
+                        }
+                        var KIN = L.geoJson(KIN, {
+                            style: function(feature) {
+                                return {
+                                    color: "transparent",
+                                    weight: 0,
+                                    fillOpacity: 1.0,
+                                    fillColor: getColorByKIN(feature.properties.Kelas)
+                                };
+                            },
+                            onEachFeature: function(feature, layer) {
+                                layer.bindPopup(
+                                    "<div style='text-align: center'>" +
+                                    "<h1 class='judultgt'>Kawasan Industri Nguter</h1>" +
+                                    "Luas: " + '<strong>' + feature.properties.Luas + '</strong>' + " ha<br>" +
+                                    "Kesesuaian: " + '<strong>' + feature.properties.Kesesuaian + '</strong>' +
+                                    "</div>"
+                                );
+                                layer.on({
+                                mouseover: highlightFeature,
+                                mouseout: function(e) {
+                                    KIN.resetStyle(e.target); 
+                                },
+                                click: function(e) {
+                                    highlightFeature(e); 
+                                    layer.openPopup();   
+                                }
+                            });
+                        }}); 
+                        // Wilayah Alternatif Hasil Pengolahan //
+                        function getColorByKelas(kelas) {
+                            return  kelas === 1 ? "#1a9641" :    
+                                    kelas === 2 ? "#a6d96a" :     
+                                    kelas === 3 ? "#ffffc0" :    
+                                                "#7f7f7f";   
+                        }
+                        var lokasialternatif = L.geoJson(lokasialternatif, {
+                            style: function(feature) {
+                                return {
+                                    color: "transparent",
+                                    weight: 0,
+                                    fillOpacity: 1.0,
+                                    fillColor: getColorByKelas(feature.properties.Kelas)
+                                };
+                            },
+                            onEachFeature: function(feature, layer) {
+                                layer.bindPopup(
+                                    "<div style='text-align: center'>" +
+                                    "<h1 class='judultgt'>Area Lokasi Alternatif</h1>" +
+                                    "Kecamatan " + '<strong>' + feature.properties.WADMKC + '</strong>' + "<br>" +
+                                    "Luas: " + '<strong>' + feature.properties.Luas + '</strong>' + " ha<br>" +
+                                    "Kesesuaian: " + '<strong>' + feature.properties.Kesesuaian + '</strong>' +
+                                    "</div>"
+                                );
+                                layer.on({
+                                mouseover: highlightFeature,
+                                mouseout: function(e) {
+                                    lokasialternatif.resetStyle(e.target); 
+                                },
+                                click: function(e) {
+                                    highlightFeature(e); 
+                                    layer.openPopup();   
+                                }
+                            });
+                        }});
+                        // RTRW Peruntukan Industri //
+                        var rtrw = L.geoJson(rtrw, {
+                            style: function(feature) {
+                                return {
+                                    fillColor: "#FF4F0F", 
+                                    color: "#FFE3BB",      
+                                    weight: 2.0,          
+                                    fillOpacity: 0.7
+                                };
+                            },
+                            onEachFeature: function(feature, layer) {
+                                layer.on({
+                                    mouseover: function(e) {
+                                        var layer = e.target;
+                                        layer.setStyle({
+                                            weight: 2.5,
+                                            color: '#ffffff',
+                                            dashArray: '',
+                                            fillOpacity: 0.9
+                                        });
+
+                                        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                                            layer.bringToFront();
+                                        }
+                                    },
+                                    mouseout: function(e) {
+                                        rtrw.resetStyle(e.target);
+                                    }
+                                });
+                            }});
+                        // Kesesuaian RTRW //
+                        function getColorByRTRW(rtrw) {
+                            return  rtrw === 1 ? "#1a9641" :    
+                                    rtrw === 2 ? "#a6d96a" :     
+                                    rtrw === 3 ? "#ffffc0" :
+                                    rtrw === 4 ? "#fdae61" :
+                                    rtrw === 5 ? "#d7191c" :    
+                                                "#7f7f7f";   
+                        }
+                        var RTRWKesesuaian = L.geoJson(rtrwkes, {
+                            style: function(feature) {
+                                return {
+                                    color: "transparent",
+                                    weight: 0,
+                                    fillOpacity: 1.0,
+                                    fillColor: getColorByRTRW(feature.properties.Kelas)
+                                };
+                            },
+                            onEachFeature: function(feature, layer) {
+                                layer.bindPopup(
+                                    "<div style='text-align: center'>" +
+                                    "<h1 class='judultgt'>Kesesuaian Lahan RTRW</h1>" +
+                                    "Luas: " + '<strong>' + feature.properties.Luasan + '</strong>' + " ha<br>" +
+                                    "Kesesuaian: " + '<strong>' + feature.properties.Kesesuaian + '</strong>' +
+                                    "</div>"
+                                );
+                                layer.on({
+                                mouseover: highlightFeature,
+                                mouseout: function(e) {
+                                    RTRWKesesuaian.resetStyle(e.target); 
+                                },
+                                click: function(e) {
+                                    highlightFeature(e); 
+                                    layer.openPopup();   
+                                }
+                            });
+                        }});
+
+                        var overlayMaps = {
+                        "Titik Industri Eksisting" : titikindustri,
+                        "Kawasan Industri Nguter" : KIN,
+                        "Lokasi Alternatif" : lokasialternatif,
+                        "RTRW Peruntukan Industri" : rtrw,
+                        "Kesesuaian Lahan RTRW" : RTRWKesesuaian,
+                        };
+
+                        var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
+                        var extent = L.control.defaultExtent().addTo(map);
+                        /*Legend specific*/
+                        var legend = L.control({ position: "bottomright" });
+                        legend.onAdd = function(map) {
+                        var div = L.DomUtil.create("div", "legend");
+                        div.innerHTML = `
+                            <div id="legend-title">Legenda</div>
+                            <p>
+                                <img src="icon/industri.png" width="18.83px"/> Titik Industri Eksisting <br>
+                                <img src="icon/bataskec.png" width="18.83px"/> Batas Administrasi Kecamatan <br>
+                                <i style="background: #FF4F0F;margin-top:3px; margin-left:1px"></i>  RTRW Peruntukan Industri
+                            </p>
+                        `;
+                        return div;
+                    }
+
+                        legend.addTo(map);
+                        var geocoder = L.Control.geocoder({
+                            position: 'topleft',
+                        }).addTo(map);
+                        var scale = L.control.scale().addTo(map);
+                        </script>
+    </body>
+</html>
+<!---------Labelgun--------->
+<script src="https://unpkg.com/rbush@2.0.2/rbush.min.js"></script>
+<script src="https://unpkg.com/labelgun@6.1.0/lib/labelgun.min.js"></script>
