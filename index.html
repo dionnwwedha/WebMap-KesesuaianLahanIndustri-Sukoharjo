@@ -105,7 +105,9 @@
                         var map = L.map('map', {
                             center: [-7.68757639269679, 110.83985714559863],
                             zoom: 11,
+                            zoomControl: false,
                         });
+                        L.control.zoom({ position: 'topright' }).addTo(map);
                         //Basemap//
                         var osm_mapnik = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	                    maxZoom: 25,
@@ -347,8 +349,11 @@
                         "Kesesuaian Lahan RTRW" : RTRWKesesuaian,
                         };
 
-                        var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
-                        var extent = L.control.defaultExtent().addTo(map);
+                        var layerControl = L.control.layers(baseMaps, overlayMaps, {
+                            position: 'topleft'}).addTo(map);
+                        var extent = L.control.defaultExtent({
+                            position: 'topright'}).addTo(map);
+
                         /*Legend specific*/
                         var legend = L.control({ position: "bottomright" });
                         legend.onAdd = function(map) {
@@ -358,15 +363,19 @@
                             <p>
                                 <img src="icon/industri.png" width="18.83px"/> Titik Industri Eksisting <br>
                                 <img src="icon/bataskec.png" width="18.83px"/> Batas Administrasi Kecamatan <br>
-                                <i style="background: #FF4F0F;margin-top:3px; margin-left:1px"></i>  RTRW Peruntukan Industri
+                                <i style="background: #FF4F0F;margin-top:3px; margin-left:1px"></i>  RTRW Peruntukan Industri <br>
+                                <i style="background: #1a9641;margin-top:3px; margin-left:1px"></i>  S1 (Sangat Sesuai) <br>
+                                <i style="background: #a6d96a;margin-top:3px; margin-left:1px"></i>  S2 (Cukup Sesuai) <br>
+                                <i style="background: #ffffc0;margin-top:3px; margin-left:1px"></i>  S3 (Sesuai Marginal) <br>
+                                <i style="background: #fdae61;margin-top:3px; margin-left:1px"></i>  N1 (Tidak Sesuai Pada Saat Ini) <br>
+                                <i style="background: #d7191c;margin-top:3px; margin-left:1px"></i>  N2 (Tidak Sesuai Permanen) 
                             </p>
                         `;
                         return div;
                     }
-
                         legend.addTo(map);
                         var geocoder = L.Control.geocoder({
-                            position: 'topleft',
+                            position: 'topright',
                         }).addTo(map);
                         var scale = L.control.scale().addTo(map);
                         </script>
