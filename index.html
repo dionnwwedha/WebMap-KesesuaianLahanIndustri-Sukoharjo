@@ -198,7 +198,7 @@
                                 return L.marker(latlng, { icon: customIcon }); // Use custom icon for markers
                             },
                             onEachFeature: function(feature, layer) {
-                                    layer.bindPopup("<div style='text-align: center'>" + '<h1 class="judultgt">Titik Industri Eksisting</h1>' + feature.properties.namobj); 
+                                    layer.bindPopup("<div style='text-align: center'>" + '<h1 class="judultgt">Industri Eksisting</h1>' + feature.properties.namobj); 
                             }});
                         // Kawasan Industri Nguter //
                         function getColorByKIN(kin) {
@@ -342,7 +342,7 @@
                         }});
 
                         var overlayMaps = {
-                        "Titik Industri Eksisting" : titikindustri,
+                        "Industri Eksisting" : titikindustri,
                         "Kawasan Industri Nguter" : KIN,
                         "Lokasi Alternatif" : lokasialternatif,
                         "RTRW Peruntukan Industri" : rtrw,
@@ -361,7 +361,7 @@
                         div.innerHTML = `
                             <div id="legend-title">Legenda</div>
                             <p>
-                                <img src="icon/industri.png" width="18.83px"/> Titik Industri Eksisting <br>
+                                <img src="icon/industri.png" width="18.83px"/> Industri Eksisting <br>
                                 <img src="icon/bataskec.png" width="18.83px"/> Batas Administrasi Kecamatan <br>
                                 <i style="background: #FF4F0F;margin-top:3px; margin-left:1px"></i>  RTRW Peruntukan Industri <br>
                                 <i style="background: #1a9641;margin-top:3px; margin-left:1px"></i>  S1 (Sangat Sesuai) <br>
